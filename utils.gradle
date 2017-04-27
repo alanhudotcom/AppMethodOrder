@@ -57,21 +57,25 @@ def getDmtraceDumpDir() {
     return ""
 }
 
+def getFilterPkgName() {
+    def rootDir = project.rootDir
+    def localProperties = new File(rootDir, "local.properties")
+    def filterPkgName = "com.";
+    if (localProperties.exists()) {
+        Properties properties = new Properties()
+        localProperties.withInputStream { instr ->
+            properties.load(instr)
+        }
+        filterPkgName = properties.getProperty('debug.filter.pkgname')
+    }
 
-//这里AppFilterMethodOrder 任务其实也不需要 执行找到 \captures 目录找到 base_order.txt
-//用Notepad++ 使用正则 先过滤 带 xit 的行 （我们只关注ent 行就行，ent代表进入执行函数　xit代表退出函数）再过滤掉你不关心的包名
-// Notepad++ 中过滤将会使用到的命令行如下
-//^.*xit.*$ //去除掉 含有 xit 字符串的行  然后替换为空
-// ^((?!XXX).)*$  //去除不包含XXX的行  然后替换为空
-//^\s+   //合并空行  然后替换为空
+    return filterPkgName;
+}
 
-task AppFilterMethodOrder() {
+task AppOutputFilterMethodOrder(dependsOn: AppOutPutMethodOrder) {
     doLast {
         //TODO 替换为你想要过滤的包名
-        def filterPackageName = "com.zjw.appmethodorder"
-        if (project.hasProperty("package_name")) {
-            filterPackageName = project.getProperty("package_name")
-        }
+        def filterPackageName = getFilterPkgName();
         //处理包名
         def filterSignature = filterPackageName.replaceAll("[.]", "/")
 

@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply from: '../utils.gradle'
 
 android {
     compileSdkVersion 25
@@ -19,6 +20,7 @@ android {
     }
 }
 
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
@@ -27,6 +29,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.3.0'
     testCompile 'junit:junit:4.12'
 }
+
 
 //核心任务：在captures文件目录下输出 基于最新.trace文件的函数调用信息的txt版本
 //说明：dmtracedump 为 android sdk自带工具，要执行dmtracedump命令则需要先添加环境变量
