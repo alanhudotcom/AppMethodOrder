@@ -1,3 +1,8 @@
+使用方式：
+1.将utils.gradle文件拷贝到工程根目录下，在工程build.gradle中增加导入apply from: '../utils.gradle'；
+2.在local.properties文件中配置到sdk.dir、debug.filter.pkgname两个配置项，后者是要过滤输出的函数包名前缀；
+3.App运行后，在Android Monitor中点击cpu监控中的时钟按钮，启动-结束后，使之产生traceview文件，然后运行gradle中的任务AppOutputFilterMethodOrder即可；
+
 > 背景：当项目代码量很大的时候，或者你作为一名新人要快速掌握代码的时候，给函数打上log，来了解代码执行逻辑，这种方式会显然成本太大，要改动项目编译运行，NO！太耗时；或者你想debug的方式来给你想关注的几个函数，来了解代码执行逻辑，NO！因为你肯定会漏掉函数；也许你可以固执的给你写的项目打满log说这样也行，但是你要知道你方法所调用的jdk的函数或者第三方aar或者jar再或者android sdk中的函数调用顺序你怎么办，还能打log吗？显然不行吧，来~这个项目给让可以让你以包名为过滤点过滤你想要知道所有函数调用顺序。
 
 提醒：本文以及相关库是本人原创，转载请标注原文链接。
